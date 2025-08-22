@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Otaku Haven - Unleash Your Power</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Roboto:wght@400;700&family=Yuji+Syuku&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- =================================================
+         THE NEW, DETAILED KATANA INTRO
+    ================================================== -->
+    <div id="intro-overlay">
+        <div id="katana-container">
+            <svg id="katana-svg" viewBox="0 0 800 400">
+                <!-- Defs for patterns, gradients, filters, and clip paths -->
+                <defs>
+                    <!-- Hilt Wrap Pattern -->
+                    <pattern id="hiltPattern" patternUnits="userSpaceOnUse" width="10" height="10">
+                        <path d="M-1,1 l2,-2 M0,10 l10,-10 M9,11 l2,-2" stroke="#ddd" stroke-width="0.5"/>
+                    </pattern>
+                    <!-- Blade Gradient -->
+                    <linearGradient id="bladeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:#f5f5f5;"/>
+                        <stop offset="50%" style="stop-color:#b0b0b0;"/>
+                        <stop offset="100%" style="stop-color:#f5f5f5;"/>
+                    </linearGradient>
+                    <!-- Glow Filter for text -->
+                    <filter id="glow">
+                        <feGaussianBlur stdDeviation="3.5" result="coloredBlur" />
+                        <feMerge>
+                            <feMergeNode in="coloredBlur" />
+                            <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                    </filter>
+                    <!-- ClipPath for revealing the text -->
+                    <clipPath id="text-clip">
+                        <rect id="clip-rect" x="-800" y="0" width="800" height="400" />
+                    </clipPath>
+                    <!-- Gradient for the slash effect -->
+                    <linearGradient id="slashGradient">
+                        <stop offset="0%" stop-color="white" stop-opacity="0" />
+                        <stop offset="50%" stop-color="white" stop-opacity="1" />
+                        <stop offset="100%" stop-color="white" stop-opacity="0" />
+                    </linearGradient>
+                </defs>
+
+                <!-- Japanese Text "OTAKU" (Initially hidden by clip-path) -->
+                <text id="japanese-text" x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" clip-path="url(#text-clip)">オタク</text>
+
+                <!-- NEW DETAILED KATANA GROUP -->
+                <g id="katana-group">
+                    <!-- Sheath (Saya) - now curved -->
+                    <path id="sheath" d="M100,225 Q400,210 750,220 L740,195 Q400,200 100,215 Z" fill="#282828" stroke="#111" stroke-width="2"/>
+                    
+                    <!-- Sword Assembly (Katana) -->
+                    <g id="sword">
+                        <!-- Hilt (Tsuka) with pattern wrap -->
+                        <path id="hilt" d="M15,212 Q50,210 100,208 L95,188 Q50,190 12,192 Z" fill="url(#hiltPattern)" stroke="#111" stroke-width="1"/>
+                        <rect x="12" y="191" width="88" height="22" fill="#333"/>
+                        <path id="hilt-wrap" d="M15,212 Q50,210 100,208 L95,188 Q50,190 12,192 Z" fill="url(#hiltPattern)" stroke="#111" stroke-width="1"/>
+                        
+                        <!-- Pommel (Kashira) -->
+                        <path id="pommel" d="M5,213 Q10,210 15,208 L12,188 Q8,190 2,193 Z" fill="#555" stroke="#111"/>
+
+                        <!-- Handguard (Tsuba) -->
+                        <path id="tsuba" d="M90,218 Q100,218 105,215 L105,185 Q100,182 90,182 Z" fill="#555" stroke="#111" stroke-width="1.5"/>
+
+                        <!-- Blade -->
+                        <g id="blade">
+                            <!-- Main blade shape (curved) -->
+                            <path d="M100,208 Q400,195 720,200 L710,180 Q400,185 100,188 Z" fill="url(#bladeGradient)" stroke="#eee" stroke-width="0.5"/>
+                            <!-- Temper Line (Hamon) - a subtle wavy path -->
+                            <path d="M110,192 C 200,194 250,190 350,192 C 450,194 500,190 600,192 C 650,194 700,191 715,190" fill="none" stroke="#fff" stroke-width="0.7" opacity="0.5"/>
+                            <!-- Blade Glint Element -->
+                            <rect id="blade-glint" x="110" y="180" width="20" height="20" fill="white" opacity="0"/>
+                        </g>
+                    </g>
+                </g>
+                
+                <!-- The visual slash effect (Path remains the same) -->
+                <path id="slash-path" d="M50,300 Q400,50 750,250" stroke="url(#slashGradient)" stroke-width="8" fill="none" />
+            </svg>
+        </div>
+    </div>
+    
+    <!-- Audio Files (Unchanged) -->
+    <audio id="shing-sound" src="assets/shing.mp3" preload="auto"></audio>
+    <audio id="slash-sound" src="assets/slash.mp3" preload="auto"></audio>
+
+    <!-- =================================================
+         MAIN WEBSITE CONTENT (Unchanged)
+    ================================================== -->
+    <div id="main-content">
+        <!-- The rest of your content (header, main, footer) is exactly the same as before -->
+        <header>
+            <nav>
+                <a href="#" class="logo">オタクヘイブン <span class="logo-eng">Otaku Haven</span></a>
+                <ul>
+                    <li><a href="#featured">Featured</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#">Apparel</a></li>
+                    <li><a href="#">Figures</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section class="hero">
+                <div class="hero-content">
+                    <h1 class="animate-on-load">Unleash Your Power Level</h1>
+                    <p class="animate-on-load">Exclusive gear for the ultimate fan. Limited edition drops weekly.</p>
+                    <a href="#featured" class="cta-button animate-on-load">Shop Now ➢</a>
+                </div>
+            </section>
+            
+            <section id="featured" class="featured-products">
+                <h2 class="section-title animate-on-scroll"><span>🔥</span> Featured Drops</h2>
+                <div class="product-grid">
+                    <div class="product-card animate-on-scroll">
+                        <div class="product-image">
+                            <img src="product1.png" alt="Anime T-Shirt">
+                        </div>
+                        <h3>Cursed Energy Tee</h3>
+                        <p class="price">$29.99</p>
+                        <button class="add-to-cart-btn">Add to Cart</button>
+                    </div>
+                    <div class="product-card animate-on-scroll">
+                        <div class="product-image">
+                            <img src="2.png" alt="Anime Hoodie">
+                        </div>
+                        <h3>Hokage's Will Hoodie</h3>
+                        <p class="price">$59.99</p>
+                        <button class="add-to-cart-btn">Add to Cart</button>
+                    </div>
+                    <div class="product-card animate-on-scroll">
+                        <div class="product-image">
+                            <img src="image.png" alt="Anime Figure">
+                        </div>
+                        <h3>Titan Slayer Figure</h3>
+                        <p class="price">$89.99</p>
+                        <button class="add-to-cart-btn">Add to Cart</button>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="about" class="about-us">
+                 <h2 class="section-title animate-on-scroll"><span>✨</span> Why Choose Us?</h2>
+                 <div class="about-grid">
+                    <div class="about-item animate-on-scroll">
+                        <h3>Authentic Designs</h3>
+                        <p>Art inspired by the greatest sagas, designed by true fans.</p>
+                    </div>
+                     <div class="about-item animate-on-scroll">
+                        <h3>Premium Quality</h3>
+                        <p>Durable materials worthy of a legendary hero's journey.</p>
+                    </div>
+                     <div class="about-item animate-on-scroll">
+                        <h3>Worldwide Shipping</h3>
+                        <p>We deliver your power-ups to any corner of the globe.</p>
+                    </div>
+                 </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 Otaku Haven. All Rights Reserved. Not a real store.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
