@@ -1,177 +1,524 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Otaku Haven - Unleash Your Power</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Roboto:wght@400;700&family=Yuji+Syuku&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>アニカルト - AniCult</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css">
+  <style>
+    /* FONT IMPORTS */
+    @font-face {
+        font-family: 'DelaGothicOne';
+        src: url('https://assets-persist.lovart.ai/agent-static-assets/DelaGothicOne-Regular.ttf') format('truetype');
+    }
+    @font-face {
+        font-family: 'NotoSerifCJKsc';
+        src: url('https://assets-persist.lovart.ai/agent-static-assets/NotoSerifCJKsc-Regular.otf') format('opentype');
+    }
+    @font-face {
+        font-family: 'NotoSerifCJKsc-Bold';
+        src: url('https://assets-persist.lovart.ai/agent-static-assets/NotoSerifCJKsc-Bold.otf') format('opentype');
+    }
+
+    /* GENERAL STYLING */
+    :root {
+        --primary-color: #c73e3a; /* Deep Red */
+        --background-color: #f5f2e8; /* Antique Paper */
+        --text-color: #333;
+        --accent-color: #d4c9b0; /* Light Brown/Gold */
+        --glow-color: rgba(199, 62, 58, 0.6);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+        font-family: 'NotoSerifCJKsc', serif;
+        background-color: var(--background-color);
+        background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXWBgYGHh4d5eXlzc3OLi4ubm5uVlZWPj4+NjY19fX2JiYl/f39ra2uRkZGZmZlpaWmXl5dvb29xcXGTk5NnZ2c8TV1mAAAAG3RSTlNAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEAvEOwtAAAFVklEQVR4XpWWB67c2BUFb3g557T/hRo9/WUMZHlgr4Bg8Z4qQgQJlHI4A8SzFVrapvmTF9O7dmYRFZ60YiBhJRCgh1FYhiLAmdvX0CzTOpNE77ME0Zty/nWWzchDtiqrmQDeuv3powQ5ta2eN0FY0InkqDD73lT9c9lEzwUNqgFHs9VQce3TVClFCQrSTfOiYkVJQBmpbq2L6iZavPnAPcoU0dSw0SUTtUlEUzGR7LGghDcSYIMIQKUPBKWBhcVYM2QtJEknGb2m5kMrCmTCbbYGvmnz3sdAGfgGKcFYYHorjUKX5mLKkmrzETsyJHpFSJIlpNc28AZGI2hbAYOMTKJsd5BZiMgverrZpdCCMfiIZ4MgHBIAaK0kRQZgpOid2+JqIOQOQoH91dyAfOJmsuF/znAVoUeXDlih6rzTCB7bNQZJDBsBgTC14vJWyoemoqsQiRB2KaZH0T+pc7RsI4pHz6CiLTEcHdhYFYJWqCefHrNcGoXt7mJhWTUaG6Tz8SDYSBiAudBLBclxiJnsJXR8iAZGbw0mL12PE2ASAtaAxGomTTQcAOaGRJYAUhdLOKPDcBKA2hWEZhALHTsWQBYCj9E1sIMGVBPiAXasTCES2hPINKE4s0JWCFGFCcq3qdnbfbKeGNg0DAwe6nwS8FNliIbIxKbkED3SQ1MYEwESJiRhLI2lKvNNDrA0mNFAQmJBA διαδικασίες');
+        color: var(--text-color);
+        overflow-x: hidden;
+    }
+
+    .container { max-width: 1400px; margin: 0 auto; position: relative; }
+    section { padding: 80px 40px; opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+    section.visible { opacity: 1; transform: translateY(0); }
+    .section-title { font-family: 'DelaGothicOne', sans-serif; font-size: 36px; text-align: center; margin-bottom: 50px; position: relative; }
+    .section-title::after { content: ''; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 3px; background-color: var(--primary-color); transition: width 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
+    section.visible .section-title::after { width: 80px; }
+    .section-subtitle { font-size: 18px; text-align: center; color: #777; margin-top: -40px; margin-bottom: 50px; font-family: 'NotoSerifCJKsc', serif; }
+
+    /* INTRO ANIMATION */
+    .intro-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; z-index: 1000; background-color: var(--background-color); animation: fadeOut 0.5s ease-out 3s forwards; }
+    .katana-container { position: relative; width: 800px; height: 200px; }
+    .katana { position: absolute; left: -100px; top: 50%; width: 0; height: 8px; background-image: linear-gradient(to right, #e0e0e0, #a0a0a0); transform: translateY(-50%); animation: unsheath 1.5s ease-out forwards; border-radius: 0 4px 4px 0; box-shadow: 0 0 10px rgba(200, 200, 200, 0.5); }
+    .spark { position: absolute; top: 50%; left: 0; width: 0; height: 0; opacity: 0; animation: spark 0.3s ease-out 1.5s forwards; }
+    .logo-reveal { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'DelaGothicOne', sans-serif; font-size: 72px; color: var(--text-color); opacity: 0; clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%); animation: revealLogo 0.5s ease-out 1.8s forwards; }
+
+    /* NAVIGATION */
+    .nav-container { position: fixed; top: 0; left: 0; width: 100%; z-index: 990; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; transition: background-color 0.3s ease, box-shadow 0.3s ease; }
+    .nav-container.scrolled { background-color: rgba(245, 242, 232, 0.8); backdrop-filter: blur(10px); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+    .logo { font-family: 'DelaGothicOne', sans-serif; font-size: 28px; color: var(--text-color); text-decoration: none; }
+    .nav-menu { display: flex; list-style: none; }
+    .nav-menu li { margin-left: 40px; }
+    .nav-menu a { text-decoration: none; color: var(--text-color); font-size: 18px; position: relative; padding-bottom: 8px; }
+    .nav-menu a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: var(--primary-color); transition: width 0.3s ease; }
+    .nav-menu a:hover::after { width: 100%; }
+    .nav-right { display: flex; align-items: center; gap: 20px; }
+    .search-bar { display: flex; align-items: center; background-color: transparent; border-radius: 20px; padding: 5px 10px; border: 1px solid var(--accent-color); transition: all 0.3s ease; }
+    .search-bar:focus-within { border-color: var(--primary-color); background-color: #fff; }
+    .search-bar input { border: none; background: transparent; outline: none; width: 180px; }
+    .search-bar button { background: transparent; border: none; cursor: pointer; color: var(--text-color); font-size: 18px; }
+    .cart-button { background: none; border: none; font-size: 24px; cursor: pointer; position: relative; }
+    .cart-count { position: absolute; top: -5px; right: -10px; background-color: var(--primary-color); color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; display: flex; justify-content: center; align-items: center; font-weight: bold; }
+
+    /* HERO SECTION */
+    .hero { position: relative; height: 100vh; width: 100%; display: flex; align-items: center; overflow: hidden; }
+    .hero-bg { position: absolute; width: 110%; height: 110%; top: -5%; left: -5%; background-image: url('https://assets-persist.lovart.ai/agent_images/662ab5ec-2fe5-4265-865e-d09687211855.png'); background-size: cover; background-position: center; z-index: 1; transition: transform 0.2s ease-out; }
+    .hero-content { position: relative; z-index: 5; margin-left: 10%; max-width: 550px; }
+    .hero-title { font-family: 'DelaGothicOne', sans-serif; font-size: 52px; text-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    .hero-subtitle { font-size: 20px; margin: 20px 0 30px; line-height: 1.6; }
+    .cta-button { display: inline-block; background-color: var(--primary-color); color: var(--background-color); padding: 15px 40px; border-radius: 50px; text-decoration: none; font-size: 18px; font-weight: bold; transition: all 0.3s ease; position: relative; overflow: hidden; border: 2px solid var(--primary-color); box-shadow: 0 5px 15px rgba(199, 62, 58, 0.4); }
+    .cta-button:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(199, 62, 58, 0.5); }
+    .cta-button::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.4), transparent); transition: left 0.5s ease-in-out; }
+    .cta-button:hover::before { left: 100%; }
+
+    /* CATEGORIES SECTION - MANGA PANEL STYLE */
+    .categories-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
+    .category { position: relative; overflow: hidden; border-radius: 10px; cursor: pointer; transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
+    .category-inner { height: 350px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; background-color: #fff; z-index: 2; position: relative;}
+    .category::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; border: 4px solid #000; z-index: 4; pointer-events: none; transition: opacity 0.4s ease; }
+    .category::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('https://www.transparenttextures.com/patterns/screws.png'); background-color: #fff; background-blend-mode: overlay; opacity: 0.8; z-index: 3; transition: opacity 0.6s ease; }
+    .category-icon { font-size: 48px; color: var(--primary-color); margin-bottom: 20px; }
+    .category-title { font-family: 'NotoSerifCJKsc-Bold', serif; font-size: 24px; margin-bottom: 10px; }
+    .category:hover { transform: translateY(-10px) scale(1.05); box-shadow: 0 0 30px var(--glow-color); }
+    .category:hover::before, .category:hover::after { opacity: 0; }
+
+    /* FEATURED PRODUCTS SECTION */
+    .product-carousel { position: relative; }
+    .carousel-track { display: flex; transition: transform 0.5s ease-in-out; }
+    .product-card { flex: 0 0 25%; padding: 0 15px; text-align: center; cursor: pointer; }
+    .product-card:hover { transform: translateY(-5px); }
+    .product-image { position: relative; overflow: hidden; border-radius: 10px; margin-bottom: 15px; background-color: #fff; border: 1px solid #eee; transition: all 0.3s ease; }
+    .product-card:hover .product-image { box-shadow: 0 0 20px var(--glow-color); border-color: var(--primary-color); }
+    .product-image img { width: 100%; display: block; transition: transform 0.4s ease; aspect-ratio: 1 / 1; object-fit: cover; }
+    .product-card:hover .product-image img { transform: scale(1.1); }
+    .product-image .add-to-cart-btn { position: absolute; bottom: -50px; left: 0; width: 100%; padding: 12px; background-color: var(--primary-color); color: var(--background-color); text-decoration: none; transition: bottom 0.3s ease; font-weight: bold; }
+    .product-card:hover .add-to-cart-btn { bottom: 0; }
+    .product-name { font-family: 'NotoSerifCJKsc-Bold', serif; font-size: 18px; min-height: 54px; }
+    .product-price { color: var(--primary-color); font-weight: bold; margin-top: 5px; }
+    .product-price s { color: #888; margin-right: 8px; font-weight: normal; }
+    .carousel-btn { position: absolute; top: 40%; transform: translateY(-50%); background-color: rgba(255, 255, 255, 0.8); border: 1px solid var(--accent-color); border-radius: 50%; width: 45px; height: 45px; cursor: pointer; z-index: 5; font-size: 24px; display: flex; justify-content: center; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .carousel-btn.prev { left: -20px; }
+    .carousel-btn.next { right: -20px; }
+
+    /* ABOUT US SECTION */
+    .about-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 50px; align-items: center; }
+    .about-image img { width: 100%; border-radius: 10px; box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+    .about-text h3 { font-family: 'NotoSerifCJKsc-Bold', serif; font-size: 28px; margin-bottom: 20px; }
+    .about-text p { line-height: 1.8; margin-bottom: 15px; font-size: 16px; }
+
+    /* FOOTER */
+    footer { background-color: #e6e2d3; padding: 60px 40px 30px; border-top: 2px solid var(--accent-color); }
+    .footer-content { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 50px; margin-bottom: 40px; }
+    .footer-links h4 { font-family: 'NotoSerifCJKsc-Bold', serif; margin-bottom: 15px; }
+    .footer-links ul { list-style: none; }
+    .footer-links li { margin-bottom: 10px; }
+    .footer-links a { text-decoration: none; color: var(--text-color); }
+    .footer-socials { display: flex; gap: 15px; margin-top: 20px; font-size: 24px; }
+    .footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid var(--accent-color); font-size: 14px; }
+
+    /* PRODUCT MODAL */
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 998; display: none; justify-content: center; align-items: center; }
+    .modal-content { background-color: var(--background-color); padding: 40px; border-radius: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 900px; position: relative; }
+    .modal-close { position: absolute; top: 15px; right: 15px; font-size: 24px; cursor: pointer; }
+    .modal-image img { width: 100%; border-radius: 10px; }
+    .modal-details h2 { font-family: 'DelaGothicOne'; margin-bottom: 15px; }
+    .modal-details .price { font-size: 24px; color: var(--primary-color); margin-bottom: 20px; }
+    .modal-details .price s { color: #888; }
+    .modal-details .description { line-height: 1.7; margin-bottom: 30px; }
+
+    /* CART SIDEBAR */
+    .cart-sidebar { position: fixed; top: 0; right: -400px; width: 400px; height: 100%; background-color: var(--background-color); z-index: 999; box-shadow: -10px 0 30px rgba(0,0,0,0.1); transition: right 0.4s ease; display: flex; flex-direction: column; }
+    .cart-sidebar.open { right: 0; }
+    .cart-header { padding: 20px; border-bottom: 1px solid var(--accent-color); display: flex; justify-content: space-between; align-items: center; }
+    .cart-header h3 { font-family: 'DelaGothicOne'; }
+    .cart-close { font-size: 24px; cursor: pointer; }
+    .cart-items { flex-grow: 1; overflow-y: auto; padding: 20px; }
+    .cart-item { display: flex; gap: 15px; margin-bottom: 20px; }
+    .cart-item-image { width: 80px; height: 80px; object-fit: cover; border-radius: 5px; }
+    .cart-item-details { flex-grow: 1; }
+    .cart-item-name { font-weight: bold; }
+    .cart-item-price { color: var(--primary-color); }
+    .cart-item-actions { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+    .cart-item-actions input { width: 40px; text-align: center; border: 1px solid var(--accent-color); }
+    .cart-item-actions button { background: none; border: none; cursor: pointer; color: var(--primary-color); }
+    .cart-footer { padding: 20px; border-top: 1px solid var(--accent-color); }
+    .cart-total { display: flex; justify-content: space-between; font-size: 20px; font-weight: bold; margin-bottom: 20px; }
+    .checkout-btn { width: 100%; }
+
+    /* CHECKOUT PAGE */
+    .checkout-page { display: none; padding: 80px 40px; }
+    .checkout-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 50px; }
+    .checkout-form h3 { font-family: 'DelaGothicOne'; margin-bottom: 20px; }
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; margin-bottom: 5px; }
+    .form-group input { width: 100%; padding: 10px; border: 1px solid var(--accent-color); border-radius: 5px; }
+    .order-summary { background-color: #e6e2d3; padding: 20px; border-radius: 10px; }
+
+    /* SAKURA PETALS */
+    .sakura-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 990; overflow: hidden; }
+    .petal { position: absolute; background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50"><path d="M25 0 C25 0 22 10 20 15 C10 20 0 30 0 40 C0 50 10 50 15 45 C20 40 25 30 25 25 C25 30 30 40 35 45 C40 50 50 50 50 40 C50 30 40 20 30 15 C28 10 25 0 25 0Z" fill="rgba(255,183,197,0.8)"/></svg>'); background-size: contain; animation: fall linear infinite; opacity: 0; }
+    @keyframes fall { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
+
+    /* KEYFRAMES */
+    @keyframes unsheath { 0% { width: 0; left: -100px; } 80% { width: 900px; } 100% { width: 800px; left: 0; } }
+    @keyframes spark { 0% { opacity: 0; transform: scale(0); left: 800px; } 50% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(0); } }
+    @keyframes revealLogo { 0% { opacity: 0; clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%); } 50% { opacity: 1; } 100% { opacity: 1; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); } }
+    @keyframes fadeOut { to { opacity: 0; visibility: hidden; } }
+  </style>
 </head>
 <body>
+  <div class="sakura-container"></div>
+  <div class="intro-animation">
+    <div class="katana-container"><div class="katana"></div><div class="spark"></div></div>
+    <div class="logo-reveal">アニカルト</div>
+  </div>
 
-    <!-- =================================================
-         THE NEW, DETAILED KATANA INTRO
-    ================================================== -->
-    <div id="intro-overlay">
-        <div id="katana-container">
-            <svg id="katana-svg" viewBox="0 0 800 400">
-                <!-- Defs for patterns, gradients, filters, and clip paths -->
-                <defs>
-                    <!-- Hilt Wrap Pattern -->
-                    <pattern id="hiltPattern" patternUnits="userSpaceOnUse" width="10" height="10">
-                        <path d="M-1,1 l2,-2 M0,10 l10,-10 M9,11 l2,-2" stroke="#ddd" stroke-width="0.5"/>
-                    </pattern>
-                    <!-- Blade Gradient -->
-                    <linearGradient id="bladeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" style="stop-color:#f5f5f5;"/>
-                        <stop offset="50%" style="stop-color:#b0b0b0;"/>
-                        <stop offset="100%" style="stop-color:#f5f5f5;"/>
-                    </linearGradient>
-                    <!-- Glow Filter for text -->
-                    <filter id="glow">
-                        <feGaussianBlur stdDeviation="3.5" result="coloredBlur" />
-                        <feMerge>
-                            <feMergeNode in="coloredBlur" />
-                            <feMergeNode in="SourceGraphic" />
-                        </feMerge>
-                    </filter>
-                    <!-- ClipPath for revealing the text -->
-                    <clipPath id="text-clip">
-                        <rect id="clip-rect" x="-800" y="0" width="800" height="400" />
-                    </clipPath>
-                    <!-- Gradient for the slash effect -->
-                    <linearGradient id="slashGradient">
-                        <stop offset="0%" stop-color="white" stop-opacity="0" />
-                        <stop offset="50%" stop-color="white" stop-opacity="1" />
-                        <stop offset="100%" stop-color="white" stop-opacity="0" />
-                    </linearGradient>
-                </defs>
+  <div class="container">
+    <header>
+      <nav class="nav-container">
+        <a href="#" class="logo">アニカルト</a>
+        <ul class="nav-menu">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#categories">Categories</a></li>
+          <li><a href="#featured">Featured</a></li>
+          <li><a href="#about">About Us</a></li>
+        </ul>
+        <div class="nav-right">
+          <div class="search-bar">
+            <input type="text" placeholder="Search merchandise..."><button type="submit"><i class="ri-search-line"></i></button>
+          </div>
+          <button class="cart-button" aria-label="Open Cart">
+            <i class="ri-shopping-cart-line"></i>
+            <span class="cart-count">0</span>
+          </button>
+        </div>
+      </nav>
+    </header>
 
-                <!-- Japanese Text "OTAKU" (Initially hidden by clip-path) -->
-                <text id="japanese-text" x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" clip-path="url(#text-clip)">オタク</text>
+    <main id="main-content">
+        <section class="hero" id="home">
+            <div class="hero-bg"></div>
+            <div class="hero-content">
+                <h1 class="hero-title">Where Tradition Meets Anime Culture</h1>
+                <p class="hero-subtitle">"Explore our curated collection of premium anime merchandise, inspired by traditional Japanese artistry and modern pop culture."</p>
+                <a href="#featured" class="cta-button">Shop The Collection</a>
+            </div>
+        </section>
 
-                <!-- NEW DETAILED KATANA GROUP -->
-                <g id="katana-group">
-                    <!-- Sheath (Saya) - now curved -->
-                    <path id="sheath" d="M100,225 Q400,210 750,220 L740,195 Q400,200 100,215 Z" fill="#282828" stroke="#111" stroke-width="2"/>
-                    
-                    <!-- Sword Assembly (Katana) -->
-                    <g id="sword">
-                        <!-- Hilt (Tsuka) with pattern wrap -->
-                        <path id="hilt" d="M15,212 Q50,210 100,208 L95,188 Q50,190 12,192 Z" fill="url(#hiltPattern)" stroke="#111" stroke-width="1"/>
-                        <rect x="12" y="191" width="88" height="22" fill="#333"/>
-                        <path id="hilt-wrap" d="M15,212 Q50,210 100,208 L95,188 Q50,190 12,192 Z" fill="url(#hiltPattern)" stroke="#111" stroke-width="1"/>
-                        
-                        <!-- Pommel (Kashira) -->
-                        <path id="pommel" d="M5,213 Q10,210 15,208 L12,188 Q8,190 2,193 Z" fill="#555" stroke="#111"/>
+        <section id="categories">
+            <h2 class="section-title">Explore by Category</h2>
+            <div class="categories-grid">
+                <div class="category"><div class="category-inner"><i class="ri-robot-2-line category-icon"></i><h3 class="category-title">Figures</h3><p>Premium collectible figures.</p></div></div>
+                <div class="category"><div class="category-inner"><i class="ri-t-shirt-air-line category-icon"></i><h3 class="category-title">Apparel</h3><p>Stylish anime-inspired clothing.</p></div></div>
+                <div class="category"><div class="category-inner"><i class="ri-key-2-line category-icon"></i><h3 class="category-title">Accessories</h3><p>Unique accessories for your passion.</p></div></div>
+                <div class="category"><div class="category-inner"><i class="ri-treasure-map-line category-icon"></i><h3 class="category-title">Collectibles</h3><p>Limited edition and rare items.</p></div></div>
+            </div>
+        </section>
 
-                        <!-- Handguard (Tsuba) -->
-                        <path id="tsuba" d="M90,218 Q100,218 105,215 L105,185 Q100,182 90,182 Z" fill="#555" stroke="#111" stroke-width="1.5"/>
+        <section id="featured">
+            <h2 class="section-title">Featured Products</h2>
+            <div class="product-carousel">
+                <div class="carousel-track" id="product-track">
+                    <!-- Products will be dynamically inserted here by JavaScript -->
+                </div>
+                <button class="carousel-btn prev"><i class="ri-arrow-left-s-line"></i></button>
+                <button class="carousel-btn next"><i class="ri-arrow-right-s-line"></i></button>
+            </div>
+        </section>
 
-                        <!-- Blade -->
-                        <g id="blade">
-                            <!-- Main blade shape (curved) -->
-                            <path d="M100,208 Q400,195 720,200 L710,180 Q400,185 100,188 Z" fill="url(#bladeGradient)" stroke="#eee" stroke-width="0.5"/>
-                            <!-- Temper Line (Hamon) - a subtle wavy path -->
-                            <path d="M110,192 C 200,194 250,190 350,192 C 450,194 500,190 600,192 C 650,194 700,191 715,190" fill="none" stroke="#fff" stroke-width="0.7" opacity="0.5"/>
-                            <!-- Blade Glint Element -->
-                            <rect id="blade-glint" x="110" y="180" width="20" height="20" fill="white" opacity="0"/>
-                        </g>
-                    </g>
-                </g>
-                
-                <!-- The visual slash effect (Path remains the same) -->
-                <path id="slash-path" d="M50,300 Q400,50 750,250" stroke="url(#slashGradient)" stroke-width="8" fill="none" />
-            </svg>
+        <section id="about">
+            <h2 class="section-title">Our Origin Story</h2>
+            <p class="section-subtitle"></p>
+            <div class="about-grid">
+                <div class="about-image">
+                    <img src="https://i.pinimg.com/originals/c9/29/0a/c9290a85a43a4583b276793e2229b4e5.gif" alt="Chutiya">
+                </div>
+                <div class="about-text">
+                    <h3>It all started with free internet...</h3>
+                    <p>My life was full of misery and hardships... until my parents bought me a phone and the Jio Wi-Fi company started distributing free, infinite internet. With these divine resources and the limited time in a day, I accepted my destiny. I worked hard, I trained, and I managed to stay awake every single night until 3 A.M. watching Anime.</p>
+                    <p>During this journey, the Pandemic became my training arc, supporting my quest to wake late with no school to hold me back. It was in those countless, glowing nights that a dream was forged.</p>
+                    <p>So, me—who is just like you—and my friend—who is not like me and you (but he's a very rich kid)—have started this small venture. I want you to have what I love, because you and I are the same. And my friend... Yeah, he's here just for the profits.</p>
+                    <p><strong>Enough of the story. Now go buy something, so you can flex it just like me.</strong></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="checkout-page" id="checkout-page">
+        <h2 class="section-title">Checkout</h2>
+        <div class="checkout-grid">
+            <div class="checkout-form">
+                <h3>Shipping Information</h3>
+                <form id="checkout-form-details">
+                    <div class="form-group"><label for="name">Full Name</label><input type="text" id="name" required></div>
+                    <div class="form-group"><label for="address">Address</label><input type="text" id="address" required></div>
+                    <div class="form-group"><label for="city">City</label><input type="text" id="city" required></div>
+                    <h3>Payment Details (Simulation)</h3>
+                    <div class="form-group"><label for="card">Card Number</label><input type="text" id="card" placeholder="XXXX-XXXX-XXXX-XXXX"></div>
+                    <button type="submit" class="cta-button">Place Order</button>
+                </form>
+            </div>
+            <div class="order-summary">
+                <h3>Order Summary</h3>
+                <div id="summary-items"></div>
+                <hr>
+                <div class="cart-total" id="summary-total">
+                    <span>Total:</span><span>Rs. 0</span>
+                </div>
+            </div>
         </div>
     </div>
     
-    <!-- Audio Files (Unchanged) -->
-    <audio id="shing-sound" src="assets/shing.mp3" preload="auto"></audio>
-    <audio id="slash-sound" src="assets/slash.mp3" preload="auto"></audio>
+    <footer>
+        <!-- Footer content remains the same -->
+    </footer>
+  </div>
 
-    <!-- =================================================
-         MAIN WEBSITE CONTENT (Unchanged)
-    ================================================== -->
-    <div id="main-content">
-        <!-- The rest of your content (header, main, footer) is exactly the same as before -->
-        <header>
-            <nav>
-                <a href="#" class="logo">オタクヘイブン <span class="logo-eng">Otaku Haven</span></a>
-                <ul>
-                    <li><a href="#featured">Featured</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#">Apparel</a></li>
-                    <li><a href="#">Figures</a></li>
-                </ul>
-            </nav>
-        </header>
+  <!-- MODAL FOR PRODUCT DETAILS -->
+  <div class="modal-overlay" id="product-modal">
+      <div class="modal-content">
+          <i class="ri-close-line modal-close"></i>
+          <div class="modal-image">
+              <img src="" alt="">
+          </div>
+          <div class="modal-details">
+              <h2 id="modal-name"></h2>
+              <p class="price" id="modal-price"></p>
+              <div class="description" id="modal-description"></div>
+              <button class="cta-button" id="modal-add-to-cart-btn">Add to Cart</button>
+          </div>
+      </div>
+  </div>
 
-        <main>
-            <section class="hero">
-                <div class="hero-content">
-                    <h1 class="animate-on-load">Unleash Your Power Level</h1>
-                    <p class="animate-on-load">Exclusive gear for the ultimate fan. Limited edition drops weekly.</p>
-                    <a href="#featured" class="cta-button animate-on-load">Shop Now ➢</a>
-                </div>
-            </section>
+  <!-- CART SIDEBAR -->
+  <div class="cart-sidebar" id="cart-sidebar">
+      <div class="cart-header">
+          <h3>Your Cart</h3>
+          <i class="ri-close-line cart-close"></i>
+      </div>
+      <div class="cart-items" id="cart-items-container">
+          <!-- Cart items will be dynamically inserted here -->
+      </div>
+      <div class="cart-footer">
+          <div class="cart-total" id="cart-total-display">
+              <span>Total:</span>
+              <span>Rs. 0</span>
+          </div>
+          <button class="cta-button checkout-btn">Proceed to Checkout</button>
+      </div>
+  </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const products = [
+        { id: 1, name: 'Mini Tanjiro Nichirin Katana (SUN BREATHING)', originalPrice: 899, salePrice: 499, image: 'https://cdn.discordapp.com/attachments/1409143009173573833/1409549885967175872/MiniTanjiroNichirinkatana1.png?ex=68ae71e0&is=68ad2060&hm=ded97fb8dcab74d55a9c09414bae4ed425660fd48f7c0c8fdbba4d8bca25f005&', description: '・Total length: 9 inches<br>・Blade length: 7 inches<br>・Display stand included<br>・Auto eject mechanism<br>Sun Breathing Style!!!' },
+        { id: 2, name: 'Mini Inosuke Nichirin Katana (Beast Breathing)', originalPrice: 899, salePrice: 549, image: 'https://cdn.discordapp.com/attachments/1409143009173573833/1409550243812479170/MiniInosukeNichirinkatana.png?ex=68ae7236&is=68ad20b6&hm=f4f89dc8ecc4b75cbbc29f27826d7563c415ec215b6fabc1cb6a6a7e53331c5a&', description: '・Total length: 9 inches<br>・Blade length: 7 inches<br>・Display stand included<br>What a Beast needs is a Sword.' },
+        { id: 3, name: 'Mini Uzui Katana (SOUND BREATHING)', originalPrice: 899, salePrice: 549, image: 'https://cdn.discordapp.com/attachments/1409143009173573833/1409553166139129998/MiniUzuikatana1.png?ex=68ae74ef&is=68ad236f&hm=d254b2fe193f6c30fb2a899d6ee0f66e32208bf4b5c32b8e7683fd001faca4ac&', description: '・Total length: 9 inches<br>・Blade length: 7 inches<br>・Display stand included<br>Flashy! Flashiness!' },
+        { id: 4, name: 'Mini Zenitsu Nichirin Katana (THUNDER BREATHING)', originalPrice: 899, salePrice: 499, image: 'https://cdn.discordapp.com/attachments/1409143009173573833/1409553851043807272/MiniZenitsuNichirinkatana1.png?ex=68ae7592&is=68ad2412&hm=c6194c283b42fe29c298212c7ca4e0f3fdbde54dd853fb067a15fd9ead09a010&', description: '・Total length: 9 inches<br>・Blade length: 7 inches<br>・Display stand included<br>"I\'m not weak, I\'m just not in the mood to fight."' },
+        { id: 5, name: 'Roronoa Zoro Action Figure (15cm)', originalPrice: 1599, salePrice: 799, image: 'https://cdn.discordapp.com/attachments/1409143009173573833/1409555939513598064/3_2518692f-59c5-4471-809f-2f814cff3cd5.png?ex=68ae7784&is=68ad2604&hm=2932f935342b9fe4ea1103f766b0977f99c51c13edc5dd6fafa1d0b19a499d77&', description: '・Material: High-quality PVC<br>・Height: 15 cm / 5.9 inches<br>・Dynamic Pose: Captures Zoro in an action-packed stance.' },
+        { id: 6, name: 'Zoro vs Sanji Battle Scene Figure', originalPrice: 1999, salePrice: 1699, image: 'https://cdn.discordapp.com/attachments/1409143009173573833/1409558408943898806/2_76dcdacd-eee9-48a7-868f-0005d3d2535b.png?ex=68ae79d1&is=68ad2851&hm=5d24436b0af8b46606d17ec207cdf22abfecb5a4e0dd787d9556ec158960ace4&', description: '・Height: Approx. 18–20 cm<br>・Material: High-quality PVC<br>・Features: Dynamic action pose, detailed base, vibrant flame and slash effects.' },
+        { id: 7, name: 'Luffy Gear 5 Nika Action Figure', originalPrice: 799, salePrice: 499, image: 'https://cdn.discordapp.com/attachments/1409143009173573833/1409559164912533555/1_983cef66-bfd6-4598-85d6-db3dc703a179.png?ex=68ae7a85&is=68ad2905&hm=4970028358d106dd10747b19785159e9e747d0c44657ea52efd6878d723f07f6&', description: '・Character name: Ore wa Luffy "I will become the Pirate King!"<br>・Size: 22x7cm<br>Episode 1071 PEAKED here.' }
+    ];
+
+    let cart = [];
+
+    // --- DYNAMIC PRODUCT LOADING ---
+    const productTrack = document.getElementById('product-track');
+    products.forEach(product => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.dataset.id = product.id;
+        card.innerHTML = `
+            <div class="product-image">
+                <img src="${product.image}" alt="${product.name}">
+                <button class="add-to-cart-btn" data-id="${product.id}">Add to Cart</button>
+            </div>
+            <h4 class="product-name">${product.name}</h4>
+            <p class="product-price"><s>Rs. ${product.originalPrice}</s> Rs. ${product.salePrice}</p>
+        `;
+        productTrack.appendChild(card);
+    });
+
+    // --- CART LOGIC ---
+    const cartButton = document.querySelector('.cart-button');
+    const cartSidebar = document.getElementById('cart-sidebar');
+    const cartClose = document.querySelector('.cart-close');
+    const cartItemsContainer = document.getElementById('cart-items-container');
+    const cartCount = document.querySelector('.cart-count');
+    const cartTotalDisplay = document.getElementById('cart-total-display');
+
+    const updateCart = () => {
+        cartItemsContainer.innerHTML = '';
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = '<p>Your cart is as empty as a world without anime...</p>';
+        } else {
+            cart.forEach(item => {
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                cartItem.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                    <div class="cart-item-details">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-price">Rs. ${item.salePrice}</div>
+                        <div class="cart-item-actions">
+                            <button class="quantity-change" data-id="${item.id}" data-change="-1">-</button>
+                            <input type="number" value="${item.quantity}" min="1" readonly>
+                            <button class="quantity-change" data-id="${item.id}" data-change="1">+</button>
+                            <button class="remove-item" data-id="${item.id}"><i class="ri-delete-bin-line"></i></button>
+                        </div>
+                    </div>
+                `;
+                cartItemsContainer.appendChild(cartItem);
+            });
+        }
+        
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const totalPrice = cart.reduce((sum, item) => sum + (item.salePrice * item.quantity), 0);
+        
+        cartCount.textContent = totalItems;
+        cartTotalDisplay.children[1].textContent = `Rs. ${totalPrice}`;
+    };
+
+    const addToCart = (productId) => {
+        const product = products.find(p => p.id === productId);
+        const cartItem = cart.find(item => item.id === productId);
+
+        if (cartItem) {
+            cartItem.quantity++;
+        } else {
+            cart.push({ ...product, quantity: 1 });
+        }
+        updateCart();
+    };
+
+    cartButton.addEventListener('click', () => cartSidebar.classList.add('open'));
+    cartClose.addEventListener('click', () => cartSidebar.classList.remove('open'));
+    
+    document.body.addEventListener('click', e => {
+        if (e.target.classList.contains('add-to-cart-btn')) {
+            const productId = parseInt(e.target.dataset.id);
+            addToCart(productId);
+            cartSidebar.classList.add('open');
+        }
+        if (e.target.id === 'modal-add-to-cart-btn') {
+            const productId = parseInt(e.target.dataset.id);
+            addToCart(productId);
+            document.getElementById('product-modal').style.display = 'none';
+            cartSidebar.classList.add('open');
+        }
+        if (e.target.classList.contains('quantity-change')) {
+            const productId = parseInt(e.target.dataset.id);
+            const change = parseInt(e.target.dataset.change);
+            const item = cart.find(i => i.id === productId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity < 1) item.quantity = 1;
+                updateCart();
+            }
+        }
+        if (e.target.closest('.remove-item')) {
+            const productId = parseInt(e.target.closest('.remove-item').dataset.id);
+            cart = cart.filter(item => item.id !== productId);
+            updateCart();
+        }
+    });
+
+    // --- PRODUCT MODAL LOGIC ---
+    const modal = document.getElementById('product-modal');
+    const modalClose = modal.querySelector('.modal-close');
+
+    productTrack.addEventListener('click', e => {
+        const card = e.target.closest('.product-card');
+        if (card && !e.target.classList.contains('add-to-cart-btn')) {
+            const productId = parseInt(card.dataset.id);
+            const product = products.find(p => p.id === productId);
             
-            <section id="featured" class="featured-products">
-                <h2 class="section-title animate-on-scroll"><span>🔥</span> Featured Drops</h2>
-                <div class="product-grid">
-                    <div class="product-card animate-on-scroll">
-                        <div class="product-image">
-                            <img src="product1.png" alt="Anime T-Shirt">
-                        </div>
-                        <h3>Cursed Energy Tee</h3>
-                        <p class="price">$29.99</p>
-                        <button class="add-to-cart-btn">Add to Cart</button>
-                    </div>
-                    <div class="product-card animate-on-scroll">
-                        <div class="product-image">
-                            <img src="2.png" alt="Anime Hoodie">
-                        </div>
-                        <h3>Hokage's Will Hoodie</h3>
-                        <p class="price">$59.99</p>
-                        <button class="add-to-cart-btn">Add to Cart</button>
-                    </div>
-                    <div class="product-card animate-on-scroll">
-                        <div class="product-image">
-                            <img src="image.png" alt="Anime Figure">
-                        </div>
-                        <h3>Titan Slayer Figure</h3>
-                        <p class="price">$89.99</p>
-                        <button class="add-to-cart-btn">Add to Cart</button>
-                    </div>
-                </div>
-            </section>
-            
-            <section id="about" class="about-us">
-                 <h2 class="section-title animate-on-scroll"><span>✨</span> Why Choose Us?</h2>
-                 <div class="about-grid">
-                    <div class="about-item animate-on-scroll">
-                        <h3>Authentic Designs</h3>
-                        <p>Art inspired by the greatest sagas, designed by true fans.</p>
-                    </div>
-                     <div class="about-item animate-on-scroll">
-                        <h3>Premium Quality</h3>
-                        <p>Durable materials worthy of a legendary hero's journey.</p>
-                    </div>
-                     <div class="about-item animate-on-scroll">
-                        <h3>Worldwide Shipping</h3>
-                        <p>We deliver your power-ups to any corner of the globe.</p>
-                    </div>
-                 </div>
-            </section>
-        </main>
+            modal.querySelector('img').src = product.image;
+            modal.querySelector('img').alt = product.name;
+            modal.querySelector('#modal-name').textContent = product.name;
+            modal.querySelector('#modal-price').innerHTML = `<s>Rs. ${product.originalPrice}</s> Rs. ${product.salePrice}`;
+            modal.querySelector('#modal-description').innerHTML = product.description;
+            modal.querySelector('#modal-add-to-cart-btn').dataset.id = product.id;
 
-        <footer>
-            <p>&copy; 2024 Otaku Haven. All Rights Reserved. Not a real store.</p>
-        </footer>
-    </div>
+            modal.style.display = 'flex';
+        }
+    });
+    modalClose.addEventListener('click', () => modal.style.display = 'none');
+    modal.addEventListener('click', e => { if(e.target === modal) modal.style.display = 'none'; });
 
-    <script src="script.js"></script>
+    // --- CHECKOUT PAGE LOGIC ---
+    const checkoutBtn = document.querySelector('.checkout-btn');
+    const mainContent = document.getElementById('main-content');
+    const checkoutPage = document.getElementById('checkout-page');
+    const checkoutForm = document.getElementById('checkout-form-details');
+
+    checkoutBtn.addEventListener('click', () => {
+        if (cart.length === 0) {
+            alert("Your cart is empty. Go find some treasure!");
+            return;
+        }
+        cartSidebar.classList.remove('open');
+        mainContent.style.display = 'none';
+        checkoutPage.style.display = 'block';
+
+        const summaryItems = document.getElementById('summary-items');
+        const summaryTotal = document.getElementById('summary-total');
+        const totalPrice = cart.reduce((sum, item) => sum + (item.salePrice * item.quantity), 0);
+        
+        summaryItems.innerHTML = cart.map(item => `<p>${item.name} x ${item.quantity} <span>Rs. ${item.salePrice * item.quantity}</span></p>`).join('');
+        summaryTotal.children[1].textContent = `Rs. ${totalPrice}`;
+    });
+
+    checkoutForm.addEventListener('submit', e => {
+        e.preventDefault();
+        alert('Thank you for your order! Your legend begins now. (This is a demo, no actual order was placed).');
+        cart = [];
+        updateCart();
+        mainContent.style.display = 'block';
+        checkoutPage.style.display = 'none';
+        window.scrollTo(0, 0);
+    });
+
+    // --- Standard animations (Scroll, Nav, Sakura, etc.) ---
+    const nav = document.querySelector('.nav-container');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 50));
+    
+    const sections = document.querySelectorAll('section');
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    sections.forEach(section => observer.observe(section));
+
+    const sakuraContainer = document.querySelector('.sakura-container');
+    for (let i = 0; i < 20; i++) {
+        const petal = document.createElement('div');
+        petal.className = 'petal';
+        petal.style.left = `${Math.random() * 100}vw`;
+        petal.style.animationDuration = `${Math.random() * 5 + 8}s`;
+        petal.style.animationDelay = `${Math.random() * 10}s`;
+        const size = `${Math.random() * 10 + 10}px`;
+        petal.style.width = size;
+        petal.style.height = size;
+        sakuraContainer.appendChild(petal);
+    }
+});
+</script>
 </body>
 </html>
